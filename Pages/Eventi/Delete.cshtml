@@ -1,0 +1,79 @@
+﻿@page
+@model Music_Tracks.Pages.Eventi.DeleteModel
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
+@{
+    ViewData["Title"] = "Delete";
+    var user = await UserManager.GetUserAsync(User);
+    int control = 0; //controllo che serve per capire se l'utente autenticato è un amministratore oppure no
+}
+
+@if (SignInManager.IsSignedIn(User))
+{
+    @foreach (var item in Model.User)
+    {
+
+        @if (item.Email == user.ToString() && (item.role == "administrator" || item.role == "staff")) //possono modificare i brani musicali solo chi fa parte dello staff oppure chi è amministratore
+        {
+
+            control = 1;
+
+        }
+    }
+
+    @if (user.ToString() == "admin@admin.com" || control == 1)
+    {
+        <a href="https://www.contatoreaccessi.com" title="contatore di visite"><img src="https://counter1.stat.ovh/private/contatoreaccessi.php?c=s9wmwmqejft52sq2cr5nhmbhggwyw2n3" border="0" title="contatore di visite" alt="contatore di visite"></a>
+
+        <h1>Delete</h1>
+
+        <h3>Are you sure you want to delete this?</h3>
+        <div>
+            <h4>Track</h4>
+            <hr />
+            <dl class="row">
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.Track.name)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.Track.name)
+                </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.Track.album)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.Track.album)
+                </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.Track.singer)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.Track.singer)
+                </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.Track.length)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.Track.length)
+                </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.Track.category)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.Track.category)
+                </dd>
+            </dl>
+
+            <form method="post">
+                <input type="hidden" asp-for="Track.Id" />
+                <input type="submit" value="Delete" class="btn btn-danger" /> |
+                <a asp-page="./Index">Back to List</a>
+            </form>
+        </div>
+    }
+    else
+    {
+        <h1>Permission Denied.</h1>
+
+    }
+}

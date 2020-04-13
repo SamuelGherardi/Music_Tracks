@@ -1,0 +1,82 @@
+﻿@page
+@model Music_Tracks.Pages.Eventi.EditModel
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
+
+@{
+    ViewData["Title"] = "Edit";
+    var user = await UserManager.GetUserAsync(User);
+    int control = 0; //controllo che serve per capire se l'utente autenticato è un amministratore oppure no
+}
+
+@if (SignInManager.IsSignedIn(User))
+{
+    @foreach (var item in Model.User)
+    {
+
+        @if (item.Email == user.ToString() && (item.role == "administrator" || item.role == "staff")) //possono modificare i brani musicali solo chi fa parte dello staff oppure chi è amministratore
+        {
+
+            control = 1;
+
+        }
+    }
+
+    @if (user.ToString() == "admin@admin.com" || control == 1)
+    {
+        
+        <h1>Edit</h1>
+
+        <h4>Track</h4>
+        <hr />
+        <div class="row">
+            <div class="col-md-4">
+                <form method="post">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <input type="hidden" asp-for="Track.Id" />
+                    <div class="form-group">
+                        <label asp-for="Track.name" class="control-label"></label>
+                        <input asp-for="Track.name" class="form-control" />
+                        <span asp-validation-for="Track.name" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Track.album" class="control-label"></label>
+                        <input asp-for="Track.album" class="form-control" />
+                        <span asp-validation-for="Track.album" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Track.singer" class="control-label"></label>
+                        <input asp-for="Track.singer" class="form-control" />
+                        <span asp-validation-for="Track.singer" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Track.length" class="control-label"></label>
+                        <input asp-for="Track.length" class="form-control" />
+                        <span asp-validation-for="Track.length" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Track.category" class="control-label"></label>
+                        <input asp-for="Track.category" class="form-control" />
+                        <span asp-validation-for="Track.category" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <input type="submit" value="Save" class="btn btn-primary" />
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div>
+            <a asp-page="./Index">Back to List</a>
+        </div>
+
+        @section Scripts {
+            @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+        }
+    }
+    else
+    {
+        <h1>Permission Denied.</h1>
+
+    }
+}

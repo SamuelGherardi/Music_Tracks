@@ -1,0 +1,62 @@
+﻿@page
+@model Music_Tracks.Pages.Eventi.IndexModel
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+
+
+<h1>Index</h1>
+
+<p>
+    <a asp-page="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Track[0].name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Track[0].album)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Track[0].singer)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Track[0].length)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Track[0].category)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model.Track) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.album)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.singer)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.length)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.category)
+            </td>
+            <td>
+                <a asp-page="./Edit" asp-route-id="@item.Id">Edit</a> |
+                <a asp-page="./Details" asp-route-id="@item.Id">Details</a> |
+                <a asp-page="./Delete" asp-route-id="@item.Id">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

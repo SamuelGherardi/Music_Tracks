@@ -1,0 +1,51 @@
+﻿@page
+@model Music_Tracks.Pages.Eventi.DetailsModel
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<a href="https://www.contatoreaccessi.com" title="contatore di visite"><img src="https://counter1.stat.ovh/private/contatoreaccessi.php?c=s9wmwmqejft52sq2cr5nhmbhggwyw2n3" border="0" title="contatore di visite" alt="contatore di visite"></a>
+
+<h1>Details</h1>
+
+<div>
+    <h4>Track</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Track.name)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Track.name)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Track.album)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Track.album)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Track.singer)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Track.singer)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Track.length)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Track.length)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Track.category)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Track.category)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-page="./Edit" asp-route-id="@Model.Track.Id">Edit</a> |
+    <a asp-page="./Index">Back to List</a>
+</div>

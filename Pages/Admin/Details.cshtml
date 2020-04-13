@@ -1,0 +1,58 @@
+﻿@page
+@model Music_Tracks.Pages.Admin.DetailsModel
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
+@{
+    ViewData["Title"] = "Details";
+    var user = await UserManager.GetUserAsync(User);
+    int control = 0; //controllo che serve per capire se l'utente autenticato è un amministratore oppure no
+}
+
+@if (SignInManager.IsSignedIn(User))
+{
+    @foreach (var item in Model.Userl)
+    {
+
+
+        @if (item.Email == user.ToString() && item.role == "administrator")
+        {
+
+            control = 1;
+
+        }
+    }
+    @if (user.ToString() == "admin@admin.com" || control == 1)
+    {
+        
+
+        <h1>Details</h1>
+
+        <div>
+            <h4>User</h4>
+            <hr />
+            <dl class="row">
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.User.role)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.User.role)
+                </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.User.Email)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.User.Email)
+                </dd>
+            </dl>
+        </div>
+        <div>
+            <a asp-page="./Edit" asp-route-id="@Model.User.Id">Edit</a> |
+            <a asp-page="./Index">Back to List</a>
+        </div>
+    }
+    else
+    {
+        <h1>Permission Denied.</h1>
+
+    }
+}

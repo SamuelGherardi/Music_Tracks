@@ -1,0 +1,36 @@
+﻿@page
+@model Music_Tracks.Pages.NewsModel
+@{
+    ViewData["Title"] = "News";
+    int length=Model.News.Count;
+    Random random = new Random();
+    int num2 = random.Next(length);
+}
+
+
+
+<h1>News</h1>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.News[num2].description)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.News[num2].date)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+            <tr>
+                <td>
+                    @Html.DisplayFor(model => model.News[num2].description)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => model.News[num2].date)
+                </td>
+                
+            </tr>
+    </tbody>
+</table>

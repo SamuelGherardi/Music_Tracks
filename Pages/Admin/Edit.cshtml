@@ -1,0 +1,72 @@
+﻿@page
+@model Music_Tracks.Pages.Admin.EditModel
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
+
+@{
+    ViewData["Title"] = "Edit";
+    var user = await UserManager.GetUserAsync(User);
+    int control = 0; //controllo che serve per capire se l'utente autenticato è un amministratore oppure no
+    string admin = "administrator";
+    string staff = "staff";
+    IList<string> Rolelist = new List<string> { admin, staff }; //lista che mi occorre per popolare la combobox di solo i valori "administrator" e "staff"
+}
+@if (SignInManager.IsSignedIn(User))
+{
+
+    @foreach (var item in Model.Userl)
+    {
+
+
+        @if (item.Email == user.ToString() && item.role == "administrator")
+        {
+
+            control = 1;
+
+        }
+    }
+
+    @if (user.ToString() == "admin@admin.com" || control == 1)
+    {
+        
+
+        <h1>Edit</h1>
+
+        <h4>User</h4>
+        <hr />
+        <div class="row">
+            <div class="col-md-4">
+                <form method="post">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <input type="hidden" asp-for="User.Id" />
+                    <div class="form-group">
+                        <label asp-for="User.role" class="control-label"></label>
+                        <select asp-for="User.role" asp-items="@(new SelectList(Rolelist))"></select>
+                        <span asp-validation-for="User.role" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="User.Email" class="control-label"></label>
+                        <input asp-for="User.Email" class="form-control" />
+                        <span asp-validation-for="User.Email" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <input type="submit" value="Save" class="btn btn-primary" />
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div>
+            <a asp-page="./Index">Back to List</a>
+        </div>
+
+        @section Scripts {
+            @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+        }
+    }
+    else
+    {
+        <h1>Permission Denied.</h1>
+
+    }
+}
